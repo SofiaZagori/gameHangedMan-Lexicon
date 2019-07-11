@@ -101,7 +101,7 @@ int main(){
             	
             	sort(&lexicon, pos, input);
             	
-            	update_File(&lexicon,"lexicon.txt");	// an xasei to pc ginetai ayth h synartisi
+            	update_File(&lexicon,"lexicon.txt");	// in case the game is lost this function is called
             									 
             	
             	
@@ -113,7 +113,7 @@ int main(){
             	scanf("%d", &num_let);
 
 				
-            	for(i = 0; i < num_let; i++){				//paulitses            	
+            	for(i = 0; i < num_let; i++){				            	
             		platform[i]='-';
             		printf("%c",platform[i]);
 				}
@@ -162,7 +162,7 @@ int main(){
 				}
 												
 				
-				letter = frequency(same_size, size);	//proteinei to gramma (kai to epistrefei)
+				letter = frequency(same_size, size);	//it suggests a letter and returns it
 				
 				printf("Does this letter exist in the word? Press 1 for Yes and 0 for No\n\n");
             	scanf("%d", answer);            	
@@ -185,11 +185,11 @@ int main(){
 					}				
 				
 				
-					del_1 = delete_w(same_size,letter,size);				// prepei na diagrafei tis lekseis poy dn exoyn katholou ayto to gramma
+					del_1 = delete_w(same_size,letter,size);			// deletes the words which don't have the suggested letter
 			
 								
 				}
-				else{						// prepei na diagrafei tis lekseis poy exoyn auto to gramma pou proteine (alla dn yparxei sth leksh)
+				else{						// deletes the words which have the suggested letter but there isn't in the word
 					del_2 = delete_words(same_size,letter,size);
 						
 							
@@ -214,7 +214,7 @@ int main(){
 
     } 
 	
-	}while(choice!=0);	// poses fores tha ksanaemfanistei to menu. afou valw to swsto pali tha ksanaemfanistei
+	}while(choice!=0);	// Number of times the menu will appear. After a correct guess it appears as well.
 	dealloc_data(&lexicon);
     return 0;
 }
@@ -241,7 +241,7 @@ void update_File(data_t *dat, char *file){
 
     int i=0;
 	FILE *fp;
-	//zhta apo ton xrhsth kai thn vazei ston buffer word opoy kanei dynamikh desmeush
+	//it asks it from the user and puts it in the buffer with dynamic allocation 
 
 
     fp = fopen(file, "w");
@@ -547,16 +547,16 @@ int init_same_size(char **array, data_t *dat, int num_let){
 }//end init_same_size
 
 
-int delete_words(char **same_size,int asciinum, int columns){	//mpainei sto delete an aporripsoume to gramma
+int delete_words(char **same_size,int asciinum, int columns){	//If the letter is rejected, delete function is called
 	int i,j,s;
 	char *temp;
 	int size = s;
 
-	for(i=0;i<size;i++){	//elegxei th grammh p tha einai kathorismeno mikos
+	for(i=0;i<size;i++){	//it controls the line which will have a specific length
 		for(j=0;j<columns;j++){
-			if (same_size[i][j]==asciinum){	//diavazw characthra characthra
+			if (same_size[i][j]==asciinum){	//reading character by character
 	
-				temp=same_size[size-1];					// na paei th leksi sthn teletytaia thesh tou arxeiou
+				temp=same_size[size-1];					// moves the word to the end of the file
 				same_size[size-1]=same_size[i];
 				same_size[i]=temp;
 				s--;
@@ -571,16 +571,16 @@ return s;
 }
 
 
-int delete_w(char **same_size,int asciinum, int columns){	//mpainei sto delete an dextoyme to gramma
+int delete_w(char **same_size,int asciinum, int columns){	//delete function is called if we accept the letter
 	int i,j, s;
 	char *temp;
 	int size = s;
 
-	for(i=0;i<size;i++){	//elegxei th grammh p tha einai kathorismeno mikos
+	for(i=0;i<size;i++){	//checks the line 
 		for(j=0;j<columns;j++){
-			if (same_size[i][j]!=asciinum){	//diavazw characthra characthra
+			if (same_size[i][j]!=asciinum){	//reading character by character
 	
-				temp=same_size[size-1];					// na paei th leksi sthn teletytaia thesh tou arxeiou
+				temp=same_size[size-1];					// moves the word to the end of the file
 				same_size[size-1]=same_size[i];
 				same_size[i]=temp;
 				s--;
